@@ -1,6 +1,5 @@
 package com.example.serviceteacschedule_and_makeup_schedule_service.Exception;
 
-import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
