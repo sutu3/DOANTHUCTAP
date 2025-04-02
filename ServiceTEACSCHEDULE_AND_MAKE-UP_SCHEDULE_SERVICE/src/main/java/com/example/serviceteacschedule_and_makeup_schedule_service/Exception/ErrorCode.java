@@ -14,6 +14,7 @@ public enum ErrorCode {
     MONHOC_NOT_FOUND(1004,"Khong tim thay Mon hoc",HttpStatus.NOT_FOUND),
     DANGKYBU_NOT_FOUND(1004,"Khong tim thay ma dang ky bu",HttpStatus.NOT_FOUND),
     PHONGMAY_NOT_FOUND(1004,"Khong tim thay Phong may",HttpStatus.NOT_FOUND),
+    CA_NOT_FOUND(1004,"Khong tim thay Ca hoc",HttpStatus.NOT_FOUND),
     LICHGIANGDAY_NOT_FOUND(1004,"Khong tim thay lich giang day",HttpStatus.NOT_FOUND),
     UNCATEGORIZED(9999,"Uncategorized", HttpStatus.INTERNAL_SERVER_ERROR);
     ErrorCode(int Code,String Message, HttpStatusCode sponse){

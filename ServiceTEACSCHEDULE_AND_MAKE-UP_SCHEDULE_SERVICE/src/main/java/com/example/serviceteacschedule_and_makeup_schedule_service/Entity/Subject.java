@@ -24,10 +24,10 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int subjectId;
 
-    @Column(columnDefinition = "varchar(255) COMMENT tên môn học",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'tên môn học'",nullable = false)
     String subjectName;
 
-    @Column(columnDefinition = "varchar(255) COMMENT mô tả",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'mô tả'",nullable = false)
     String description;
 
     @OneToMany(mappedBy ="subject",cascade = CascadeType.ALL,orphanRemoval = true)

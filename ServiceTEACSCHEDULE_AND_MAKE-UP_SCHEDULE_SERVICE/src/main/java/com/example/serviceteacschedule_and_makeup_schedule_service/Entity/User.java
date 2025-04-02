@@ -26,17 +26,17 @@ public class User {
     @Column(name = "user_id") // ✅ Đảm bảo Hibernate hiểu rõ
     int userId;
 
-    @Column(columnDefinition = "varchar(255) COMMENT tên người dùng",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'tên người dùng'",nullable = false)
     String username;
 
-    @Column(columnDefinition = "varchar(255) COMMENT mật khẩu",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'mật khẩu'",nullable = false)
     String password;
 
 
-    @Column(columnDefinition = "varchar(255) COMMENT ho và ten day du",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'ho và ten day du'",nullable = false)
     String fullname;
 
-    @Column(columnDefinition = "varchar(255) COMMENT tên ca",nullable = false,unique = true)
+    @Column(columnDefinition = "varchar(255) COMMENT 'tên ca'",nullable = false,unique = true)
     String email;
     @OneToMany(mappedBy ="user",cascade = CascadeType.ALL,orphanRemoval = true)
     List<MakeupRequest> makeupRequests;

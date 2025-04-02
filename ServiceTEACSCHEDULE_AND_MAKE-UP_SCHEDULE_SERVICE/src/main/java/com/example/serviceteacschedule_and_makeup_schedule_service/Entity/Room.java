@@ -24,13 +24,13 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int roomId;
 
-    @Column(columnDefinition = "varchar(255) COMMENT ten phong",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'ten phong'",nullable = false)
     String roomName;
 
-    @Column(columnDefinition = "varchar(255) COMMENT sức chứa tối đa",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'sức chứa tối đa'",nullable = false)
     int capacity;
 
-    @Column(columnDefinition = "varchar(255) COMMENT vị trí phòng",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'vị trí phòng'",nullable = false)
     private String location;
 
     @OneToMany(mappedBy ="room",cascade = CascadeType.ALL,orphanRemoval = true)

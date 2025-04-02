@@ -27,7 +27,7 @@ public class Notification {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @Column(columnDefinition = "varchar(255) COMMENT tin nhan gui",nullable = false)
+    @Column(columnDefinition = "varchar(255) COMMENT 'tin nhan gui'",nullable = false)
     String message;
 
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

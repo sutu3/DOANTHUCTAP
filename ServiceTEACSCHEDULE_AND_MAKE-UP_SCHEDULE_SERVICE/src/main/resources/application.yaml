@@ -2,7 +2,7 @@ spring:
   application:
     name: ServiceTEACSCHEDULE_AND_MAKE-UP_SCHEDULE_SERVICE
   datasource:
-    url: jdbc:mysql://localhost:3306/webshedule
+    url: jdbc:mysql://localhost:3306/sheduledb
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
