@@ -6,6 +6,7 @@ import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.ClassS
 import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.Classes;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.Room;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.Shift;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Enum.DayOfWeek;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Exception.AppException;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Exception.ErrorCode;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Mapper.ClassSchedulesMapper;
@@ -50,9 +51,13 @@ public class ClassSchedulesService {
                 classSchedulesRepo.findById(id).orElseThrow(
                         ()->new AppException(ErrorCode.LICHGIANGDAY_NOT_FOUND)));
     }
+    public ClassSchedulesResponse createClassSchedule(ClassSchedulesRequest request) {
 
-    
-    public ClassSchedules createClassSchedule(ClassSchedulesRequest request) {
+        DayOfWeek dayOfWeek=dayOfWeekUtil.dayOfWeek(request.getDayOfWeek());
+        if( classSchedulesRepo.findFirstByClasses_Shift_ShiftIdAndDayOfWeek(
+                request.getShift_id(),dayOfWeek)!=null){
+            throw new AppException(ErrorCode.CLASS_SCHEDULES_IS_EXIST);
+        }
         ClassSchedules schedules=classSchedulesMapper.toClassSchedules(request);
         Shift shiftupdate=shiftRepo.findById(request.getShift_id())
                 .orElseThrow(()->new AppException(ErrorCode.CA_NOT_FOUND));
@@ -60,10 +65,12 @@ public class ClassSchedulesService {
         Room roomupdate=roomRepo.findById(request.getRoom_id())
                 .orElseThrow(()->new AppException(ErrorCode.PHONGMAY_NOT_FOUND));
         schedules.setRoom(roomupdate);
-        Classes classes=classesRepo.findById(request.getClasses_id())
+        Classes classes=classesRepo.findById(request.getClass_id())
                 .orElseThrow(()->new AppException(ErrorCode.LOP_NOT_FOUND));
-        schedules.setDayOfWeek(dayOfWeekUtil.dayOfWeek(request.getDayOfWeek()));
-        return classSchedulesRepo.save(schedules);
+        schedules.setClasses(classes);
+        schedules.setDayOfWeek(dayOfWeek);
+        return classSchedulesMapper
+                .toClassSchedulesResponse(classSchedulesRepo.save(schedules));
     }
 
    

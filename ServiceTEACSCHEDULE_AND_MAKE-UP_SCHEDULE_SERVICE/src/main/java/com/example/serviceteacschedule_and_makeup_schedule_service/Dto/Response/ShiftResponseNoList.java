@@ -15,11 +15,11 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ShiftResponse {
+public class ShiftResponseNoList {
     int shiftId;
     String shiftName;
-/*    List<ClassSchedules> classesSchedules;
-    List<ClassesResponseNoList> classes;*/
+    /*List<ClassSchedules> classesSchedules;
+    List<Classes> classes;*/
     LocalTime startTime;
     LocalTime endTime;
 }

@@ -28,9 +28,6 @@ public class ClassesRequest {
 
     int shift_id;
 
-    LocalDateTime startTime;
-
-    LocalDateTime endTime;
 
 
 }

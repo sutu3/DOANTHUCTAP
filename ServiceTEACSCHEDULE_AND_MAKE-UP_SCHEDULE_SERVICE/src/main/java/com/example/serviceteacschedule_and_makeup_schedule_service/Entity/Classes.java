@@ -1,6 +1,8 @@
 package com.example.serviceteacschedule_and_makeup_schedule_service.Entity;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 import com.example.serviceteacschedule_and_makeup_schedule_service.Enum.ClassStatus;
@@ -44,11 +46,11 @@ public class Classes {
     @OneToMany(mappedBy ="classes",cascade = CascadeType.ALL,orphanRemoval = true)
     List<ClassSchedules> classesSchedules;
 
-    @Column(columnDefinition = "DATE COMMENT 'thoi gian lop hoc bat dau'",nullable = false)
-     LocalDateTime startTime;
+    @Column(columnDefinition = "DATETIME COMMENT 'thoi gian lop hoc bat dau'",nullable = false)
+    LocalTime startTime;
 
-    @Column(columnDefinition = "DATE COMMENT 'thoi gian lop hoc ket thuc'",nullable = false)
-     LocalDateTime endTime;
+    @Column(columnDefinition = "DATETIME COMMENT 'thoi gian lop hoc ket thuc'",nullable = false)
+    LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
     ClassType type;

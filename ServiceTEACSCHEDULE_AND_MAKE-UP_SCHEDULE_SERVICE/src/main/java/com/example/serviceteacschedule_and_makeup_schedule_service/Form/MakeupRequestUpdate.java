@@ -5,21 +5,14 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ClassesUpdate {
-    int subject_id;
-
-    int room_id;
-
-    int user_id;
-
+public class MakeupRequestUpdate {
     int shift_id;
-
-
-
+    LocalDateTime makeupDate;
 }
 

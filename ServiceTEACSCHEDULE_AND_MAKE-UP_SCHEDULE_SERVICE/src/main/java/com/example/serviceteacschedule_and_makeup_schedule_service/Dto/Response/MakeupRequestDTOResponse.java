@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MakeupRequestDTOResponse {
      Integer requestId;
-    User user;
-    Room room;
-    Subject subject;
+     UserResponseNoList user;
+    RoomResponse room;
+    SubjectResponseNoList subject;
      LocalDateTime requestTime;
      RequestStatus status;
     String reason;

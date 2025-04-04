@@ -1,19 +1,21 @@
 package com.example.serviceteacschedule_and_makeup_schedule_service.Service;
 
+import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.ClassSchedulesRequest;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.ClassesRequest;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.MakeupRequestDTORequest;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.ClassSchedulesResponse;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.ClassesResponse;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.MakeupRequestDTOResponse;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.MakeupRequest;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.Room;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.Subject;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.User;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.*;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Enum.DayOfWeek;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Enum.RequestStatus;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Exception.AppException;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Exception.ErrorCode;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Form.MakeupRequestUpdate;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Mapper.ClassSchedulesMapper;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Mapper.MakeupRequestMapper;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Repo.MakeupRequestRepo;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Repo.RoomRepo;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Repo.SubjectRepo;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Repo.UserRepo;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Repo.*;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Util.DayOfWeekUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -37,6 +39,11 @@ public class MakeupRequestService {
     private final UserRepo userRepo;
     private final RoomRepo roomRepo;
     private final SubjectRepo subjectRepo;
+    private final ClassesRepo classesRepo;
+    private final ClassesService classesService;
+    private final ClassSchedulesService classSchedulesService;
+    ClassSchedulesMapper classSchedulesMapper;
+    DayOfWeekUtil dayOfWeekUtil;
 
 
     public List<MakeupRequestDTOResponse> getAllMakeupRequests() {
@@ -53,15 +60,17 @@ public class MakeupRequestService {
     }
     public MakeupRequestDTOResponse createMakeupRequest(MakeupRequestDTORequest request) {
         MakeupRequest makeupRequest=makeupRequestMapper.toMakeupRequestDTO(request);
-        makeupRequest.setStatus(RequestStatus.PENDING);
+
         User user=userRepo.findById(request.getUser_id())
                 .orElseThrow(()->new AppException(ErrorCode.GIANGVIEN_NOT_FOUND));
-        makeupRequest.setUser(user);
         Room room=roomRepo.findById(request.getRoom_id())
                 .orElseThrow(()->new AppException(ErrorCode.PHONGMAY_NOT_FOUND));
-        makeupRequest.setRoom(room);
         Subject subject=subjectRepo.findById(request.getSubject_id())
                 .orElseThrow(()->new AppException(ErrorCode.MONHOC_NOT_FOUND));
+        makeupRequest.setStatus(RequestStatus.PENDING);
+        makeupRequest.setUser(user);
+        makeupRequest.setRoom(room);
+        makeupRequest.setSubject(subject);
         return makeupRequestMapper.toMakeupRequestDTOResponse(
                 makeupRequestRepo.save(makeupRequest));
     }
@@ -73,13 +82,39 @@ public class MakeupRequestService {
         return makeupRequestMapper.toMakeupRequestDTOResponse(
                 makeupRequestRepo.save(makeupRequest));
     }
-    public MakeupRequestDTOResponse Approve(int id){
+    public ClassSchedulesResponse Approve(int id, MakeupRequestUpdate update){
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.DANGKYBU_NOT_FOUND));
         makeupRequest.setStatus(RequestStatus.APPROVED);
         makeupRequest.setApprovedAt(LocalDateTime.now());
-        return makeupRequestMapper.toMakeupRequestDTOResponse(
-                makeupRequestRepo.save(makeupRequest));
+        makeupRequest.setMakeupDate(update.getMakeupDate());
+        Classes classes=classesRepo.findFirstBySubject_SubjectIdAndRoom_RoomIdAndUser_UserId(
+                makeupRequest.getSubject().getSubjectId(),
+                makeupRequest.getRoom().getRoomId(),
+                makeupRequest.getUser().getUserId());
+        int classId=0;
+        if(classes==null){
+            classId=classesService.createClass(ClassesRequest.builder()
+                    .subject_id(makeupRequest.getSubject().getSubjectId())
+                            .user_id(makeupRequest.getUser().getUserId())
+                            .shift_id(update.getShift_id())
+                            .room_id(makeupRequest.getRoom().getRoomId())
+                    .build()).getClassId();
+        }else {
+            classId = classes.getClassId();
+        }
+        MakeupRequest makeupRequestApprove=makeupRequestRepo.save(makeupRequest);
+
+        ClassSchedulesResponse classSchedulesResponse=classSchedulesService.createClassSchedule(
+                ClassSchedulesRequest.builder()
+                .class_id(classId)
+                .room_id(makeupRequestApprove.getRoom().getRoomId())
+                .shift_id(update.getShift_id())
+                .dayOfWeek(makeupRequestApprove.getMakeupDate())
+                .build());
+
+
+        return classSchedulesResponse;
     }
 
 

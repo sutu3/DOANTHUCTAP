@@ -16,9 +16,9 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClassSchedulesResponse {
     Integer scheduleId;
-    Classes classes;
-    Room room;
-    Shift shift;
+    ClassesResponseNoList classes;
+    RoomResponse room;
+    ShiftResponseNoList shift;
     DayOfWeek dayOfWeek;
 }
 

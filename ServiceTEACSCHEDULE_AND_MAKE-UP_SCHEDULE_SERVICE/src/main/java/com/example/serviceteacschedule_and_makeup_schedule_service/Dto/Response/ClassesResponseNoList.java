@@ -1,6 +1,5 @@
 package com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response;
 
-import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.*;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Enum.ClassStatus;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Enum.ClassType;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -17,13 +16,10 @@ import java.util.List;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ClassesResponse {
+public class ClassesResponseNoList {
     int classId;
     SubjectResponseNoList subject;
-    RoomResponse room;
     UserResponseNoList user;
-    ShiftResponseNoList shift;
-    List<ClassSchedulesResponseNoClass> classesSchedules;
     LocalTime startTime;
     LocalTime endTime;
     ClassType type;

@@ -1,5 +1,6 @@
 package com.example.serviceteacschedule_and_makeup_schedule_service.Service;
 
+import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.UserRequest;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.UserResponse;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Entity.User;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Exception.AppException;
@@ -48,8 +49,8 @@ public class UserService {
     }
 
   
-    public UserResponse createUser(User user) {
-
+    public UserResponse createUser(UserRequest request) {
+        User user=userMapper.toUser(request);
         return userMapper.toUserResponse(
                 userRepo.save(user));
     }

@@ -34,17 +34,17 @@ public class MakeupRequest {
     @JoinColumn(name = "subjectId", nullable = false)
      Subject subject;
 
-    @Column(columnDefinition = "Date COMMENT 'thoi gian lap dang ky du'",nullable = false)
-     LocalDateTime requestTime;
+    @Column(columnDefinition = "DATETIME COMMENT 'Thời gian lập đăng ký dự'", nullable = false)
+    private LocalDateTime requestTime;
 
     @Enumerated(EnumType.STRING)
      RequestStatus status;
     @Column(columnDefinition = "varchar(255) COMMENT 'ly do lap dang ky du'",nullable = false)
     String reason;
-    @Column(columnDefinition = "Date COMMENT 'thoi gian chap nhan dang ky du'",nullable = false)
+    @Column(columnDefinition = "Date COMMENT 'thoi gian chap nhan dang ky du'")
     LocalDateTime approvedAt;
 
-    @Column(columnDefinition = "Date COMMENT 'thoi gian hoc du'",nullable = false)
+    @Column(columnDefinition = "Date COMMENT 'thoi gian hoc du'")
     LocalDateTime makeupDate;
 }
 
