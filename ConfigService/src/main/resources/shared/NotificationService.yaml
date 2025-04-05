@@ -1,0 +1,20 @@
+spring:
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: minhdaimk111@gmail.com
+    password: qalwnukbtdganhgg
+    properties:
+      mail.smtp.starttls.enable: true  # ? B?t bu?c kích ho?t TLS
+      mail.smtp.auth: true
+      mail.smtp.ssl.trust: smtp.gmail.com
+    test-connection: false
+server:
+  port: 9083
+  address: 0.0.0.0
+springdoc:
+  swagger-ui:
+    path: "/swagger"
+
+

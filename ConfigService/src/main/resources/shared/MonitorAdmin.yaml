@@ -1,0 +1,21 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: minhdaimk111@gmail.com
+    password: qalwnukbtdganhgg
+    properties:
+      mail.smtp.starttls.enable: true  # ? B?t bu?c kích ho?t TLS
+      mail.smtp.auth: true
+      mail.smtp.ssl.trust: smtp.gmail.com
+    test-connection: false
+  boot:
+    admin:
+      notify:
+        mail:
+          enabled: true
+          to: minhdaimk111@gmail.com

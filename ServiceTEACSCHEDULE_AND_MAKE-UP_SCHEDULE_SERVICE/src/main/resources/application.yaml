@@ -1,24 +1,8 @@
 spring:
   application:
     name: ServiceTEACSCHEDULE_AND_MAKE-UP_SCHEDULE_SERVICE
-  datasource:
-    url: jdbc:mysql://localhost:3306/sheduledb
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
-  jpa:
-    database: mysql
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
-springdoc:
-  swagger-ui:
-    path: "/swagger"
-server:
-  port: 8080
-  address: 0.0.0.0
-
+  config:
+    import: configserver:http://localhost:8888
+  cloud:
+    config:
+      fail-fast: true

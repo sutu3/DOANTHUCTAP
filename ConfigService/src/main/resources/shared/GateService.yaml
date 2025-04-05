@@ -1,0 +1,29 @@
+server:
+  port: 9081
+  servlet:
+    context-path: /
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: report-routes
+          uri: lb://StatisticService
+          predicates:
+            - Path=/statistic/**
+          filters:
+            - StripPrefix=1
+        - id: schedule-routes
+          uri: lb://ScheduleService
+          predicates:
+            - Path=/schedule/**
+          filters:
+            - StripPrefix=1
+        - id: authen-routes
+          uri: lb://Authen_Service
+          predicates:
+            - Path=/authen/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          enabled: true

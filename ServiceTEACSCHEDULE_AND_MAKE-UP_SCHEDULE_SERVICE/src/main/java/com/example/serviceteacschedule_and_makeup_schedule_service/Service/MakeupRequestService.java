@@ -1,8 +1,7 @@
 package com.example.serviceteacschedule_and_makeup_schedule_service.Service;
 
-import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.ClassSchedulesRequest;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.ClassesRequest;
-import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.MakeupRequestDTORequest;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Client.NotificationService;
+import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Request.*;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.ClassSchedulesResponse;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.ClassesResponse;
 import com.example.serviceteacschedule_and_makeup_schedule_service.Dto.Response.MakeupRequestDTOResponse;
@@ -21,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,14 +36,16 @@ public class MakeupRequestService {
 
     MakeupRequestRepo makeupRequestRepo;
     MakeupRequestMapper makeupRequestMapper;
-    private final UserRepo userRepo;
-    private final RoomRepo roomRepo;
-    private final SubjectRepo subjectRepo;
-    private final ClassesRepo classesRepo;
-    private final ClassesService classesService;
-    private final ClassSchedulesService classSchedulesService;
+    NotificationService notificationService;
+    UserRepo userRepo;
+    RoomRepo roomRepo;
+    SubjectRepo subjectRepo;
+    ClassesRepo classesRepo;
+    ClassesService classesService;
+    ClassSchedulesService classSchedulesService;
     ClassSchedulesMapper classSchedulesMapper;
     DayOfWeekUtil dayOfWeekUtil;
+    private final ShiftRepo shiftRepo;
 
 
     public List<MakeupRequestDTOResponse> getAllMakeupRequests() {
@@ -79,8 +81,18 @@ public class MakeupRequestService {
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.DANGKYBU_NOT_FOUND));
         makeupRequest.setStatus(RequestStatus.REJECTED);
-        return makeupRequestMapper.toMakeupRequestDTOResponse(
-                makeupRequestRepo.save(makeupRequest));
+        MakeupRequest makeupRequestUpdate=makeupRequestRepo.save(makeupRequest);
+        notificationService.sendMailReject(NotificationReject.builder()
+                        .id(makeupRequestUpdate.getRequestId())
+                        .to(makeupRequestUpdate.getUser().getEmail())
+                        .from("minhdaimk111@gmail.com")
+                        .subject(makeupRequestUpdate.getSubject().getSubjectName())
+                        .toName(makeupRequestUpdate.getUser().getFullname())
+                        .message("Yêu cầu bù lớp của bạn không được phê duyệt")
+                        .content("Thông báo từ chối đăng ký học bù")
+                        .room(makeupRequestUpdate.getRoom().getRoomName())
+                .build());
+        return makeupRequestMapper.toMakeupRequestDTOResponse(makeupRequestUpdate);
     }
     public ClassSchedulesResponse Approve(int id, MakeupRequestUpdate update){
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
@@ -93,11 +105,13 @@ public class MakeupRequestService {
                 makeupRequest.getRoom().getRoomId(),
                 makeupRequest.getUser().getUserId());
         int classId=0;
+        Shift shift=shiftRepo.findById(update.getShift_id())
+                .orElseThrow(()->new AppException(ErrorCode.CA_NOT_FOUND));
         if(classes==null){
             classId=classesService.createClass(ClassesRequest.builder()
                     .subject_id(makeupRequest.getSubject().getSubjectId())
                             .user_id(makeupRequest.getUser().getUserId())
-                            .shift_id(update.getShift_id())
+                            .shift_id(shift.getShiftId())
                             .room_id(makeupRequest.getRoom().getRoomId())
                     .build()).getClassId();
         }else {
@@ -112,7 +126,24 @@ public class MakeupRequestService {
                 .shift_id(update.getShift_id())
                 .dayOfWeek(makeupRequestApprove.getMakeupDate())
                 .build());
-
+        notificationService.sendMailApprove(NotificationApprove.builder()
+                .id(makeupRequestApprove.getRequestId())
+                .to(makeupRequestApprove.getUser().getEmail())
+                .from("minhdaimk111@gmail.com")
+                .subject(makeupRequestApprove.getSubject().getSubjectName())
+                .toName(makeupRequestApprove.getUser().getFullname())
+                .message("Yêu cầu bù lớp của bạn đã được phê duyệt")
+                .content("Thông báo về việc đăng ký học bù")
+                .date(makeupRequestApprove.getMakeupDate().toString())
+                .shift(new StringBuilder().append(shift.getShiftName())
+                                .append("(")
+                                .append(shift.getStartTime())
+                                .append("-")
+                                .append(shift.getEndTime())
+                                .append(")")
+                                .toString())
+                .classification(makeupRequestApprove.getClass().getName())
+                .build());
 
         return classSchedulesResponse;
     }

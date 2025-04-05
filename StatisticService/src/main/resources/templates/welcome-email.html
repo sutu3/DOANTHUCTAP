@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Welcome Email</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header img {
+            width: 100px;
+            border-radius: 50%;
+        }
+        .header h1 {
+            margin: 10px 0 5px;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .content h2 {
+            color: #333;
+        }
+        .content p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .cta {
+            display: inline-block;
+            background: #ff7e5f;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .cta:hover {
+            background: #d96c57;
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #777;
+            background-color: #eee;
+        }
+        .footer a {
+            color: #ff7e5f;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar">
+        <h1>Chào mừng, <span th:text="${name}"></span>!</h1>
+        <p>Rất vui khi bạn tham gia cùng chúng tôi</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <h2>🎉 Bạn đã đăng ký thành công! 🎉</h2>
+        <p th:text="${content}"></p>
+        <p>Cảm ơn bạn đã tham gia! Chúng tôi hy vọng bạn sẽ có một trải nghiệm tuyệt vời.</p>
+        <a href="#" class="cta">Khám phá ngay</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Liên hệ hỗ trợ: <a href="mailto:support@yourcompany.com">support@yourcompany.com</a></p>
+        <p>&copy; 2025 YourCompany. All Rights Reserved.</p>
+    </div>
+</div>
+</body>
+</html>
