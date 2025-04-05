@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/ConfigService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Discoveryservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/FileService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GatewayService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/MonitorAdmin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/NotificationService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ScheduleService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ServiceTEACSCHEDULE_AND_MAKE-UP_SCHEDULE_SERVICE/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/StatisticService/src/main/java" charset="UTF-8" />
+  </component>
+</project>
