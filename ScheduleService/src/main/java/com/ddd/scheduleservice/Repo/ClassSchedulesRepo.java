@@ -5,8 +5,10 @@ import com.ddd.scheduleservice.Enum.DayOfWeek;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+
 @Repository
 public interface ClassSchedulesRepo extends JpaRepository<ClassSchedules, Integer> {
-    ClassSchedules findFirstByClasses_Shift_ShiftIdAndDayOfWeek(int shiftId, DayOfWeek dayOfWeek);
+    ClassSchedules findFirstByClasses_Shift_ShiftIdAndDayOfWeekAndDateStart(int shiftId, DayOfWeek dayOfWeek, LocalDate date);
     
 }

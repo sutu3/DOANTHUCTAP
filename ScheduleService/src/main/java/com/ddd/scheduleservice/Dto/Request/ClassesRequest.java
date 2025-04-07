@@ -1,7 +1,11 @@
 package com.ddd.scheduleservice.Dto.Request;
 
+import jakarta.persistence.Column;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +20,8 @@ public class ClassesRequest {
     int user_id;
 
     int shift_id;
+    LocalDate startTime;
+    LocalDate endTime;
 
 
 

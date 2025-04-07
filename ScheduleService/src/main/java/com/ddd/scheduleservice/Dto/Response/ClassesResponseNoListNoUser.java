@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -18,8 +19,8 @@ import java.time.LocalTime;
 public class ClassesResponseNoListNoUser {
     int classId;
     SubjectResponseNoList subject;
-    LocalTime startTime;
-    LocalTime endTime;
+    LocalDate startTime;
+    LocalDate endTime;
     ClassType type;
     ClassStatus status;
     LocalDateTime createdAt;

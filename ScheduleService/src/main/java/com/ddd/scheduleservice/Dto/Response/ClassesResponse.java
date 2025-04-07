@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -20,12 +21,14 @@ import java.util.List;
 public class ClassesResponse {
     int classId;
     SubjectResponseNoList subject;
-    RoomResponse room;
+    /*RoomResponse room;*/
     UserResponseNoList user;
-    ShiftResponseNoList shift;
+    /*ShiftResponseNoList shift;*/
+/*
     List<ClassSchedulesResponseNoClass> classesSchedules;
-    LocalTime startTime;
-    LocalTime endTime;
+*/
+    LocalDate startTime;
+    LocalDate endTime;
     ClassType type;
     ClassStatus status;
     LocalDateTime createdAt;

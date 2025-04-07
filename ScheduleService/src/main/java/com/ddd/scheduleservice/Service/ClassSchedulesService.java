@@ -22,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,13 +52,13 @@ public class ClassSchedulesService {
                 classSchedulesRepo.findById(id).orElseThrow(
                         ()->new AppException(ErrorCode.LICHGIANGDAY_NOT_FOUND)));
     }
-    public ClassSchedulesResponse createClassSchedule(ClassSchedulesRequest request,String token) {
-        authenService.authenAdmin(TokenRequest.builder()
+    public ClassSchedulesResponse createClassSchedule(ClassSchedulesRequest request) {
+        /*authenService.authenAdmin(TokenRequest.builder()
                 .Token(token)
-                .build());
+                .build());*/
         DayOfWeek dayOfWeek=dayOfWeekUtil.dayOfWeek(request.getDayOfWeek());
-        if( classSchedulesRepo.findFirstByClasses_Shift_ShiftIdAndDayOfWeek(
-                request.getShift_id(),dayOfWeek)!=null){
+        if( classSchedulesRepo.findFirstByClasses_Shift_ShiftIdAndDayOfWeekAndDateStart(
+                request.getShift_id(),dayOfWeek,LocalDate.from(request.getDayOfWeek()))!=null){
             throw new AppException(ErrorCode.CLASS_SCHEDULES_IS_EXIST);
         }
         ClassSchedules schedules=classSchedulesMapper.toClassSchedules(request);
@@ -69,6 +70,7 @@ public class ClassSchedulesService {
         schedules.setRoom(roomupdate);
         Classes classes=classesRepo.findById(request.getClass_id())
                 .orElseThrow(()->new AppException(ErrorCode.LOP_NOT_FOUND));
+        schedules.setDateStart(LocalDate.from(request.getDayOfWeek()));
         schedules.setClasses(classes);
         schedules.setDayOfWeek(dayOfWeek);
         return classSchedulesMapper

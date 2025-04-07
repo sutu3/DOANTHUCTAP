@@ -21,6 +21,7 @@ import java.util.List;
 @Slf4j
 public class UserController {
     UserService UserService;
+    private final UserService userService;
 
     @GetMapping
     public ApiResponse<List<UserResponse>> getall(){
@@ -56,6 +57,15 @@ public class UserController {
     public ApiResponse<UserResponse> updateUser(@PathVariable int id, @RequestBody UserUpdate request){
         return ApiResponse.<UserResponse>builder()
                 .Result(UserService.updateUser(id, request))
+                .success(true).code(0)
+                .message("SuccessFull")
+                .build();
+    }
+    @PutMapping("/updateRole/{id}")
+    public ApiResponse<String> updateUser(@PathVariable int id){
+        userService.UpdateRoleAdmin(id);
+        return ApiResponse.<String>builder()
+                .Result("User has Role Admin")
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();

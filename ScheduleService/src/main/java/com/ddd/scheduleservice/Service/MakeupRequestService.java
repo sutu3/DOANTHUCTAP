@@ -125,7 +125,7 @@ public class MakeupRequestService {
                 .room_id(makeupRequestApprove.getRoom().getRoomId())
                 .shift_id(update.getShift_id())
                 .dayOfWeek(makeupRequestApprove.getMakeupDate())
-                .build(),token);
+                .build());
         notificationService.sendMailApprove(NotificationApprove.builder()
                 .id(makeupRequestApprove.getRequestId())
                 .to(makeupRequestApprove.getUser().getEmail())

@@ -10,6 +10,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -45,11 +46,11 @@ public class Classes {
     @OneToMany(mappedBy ="classes",cascade = CascadeType.ALL,orphanRemoval = true)
     List<ClassSchedules> classesSchedules;
 
-    @Column(columnDefinition = "DATETIME COMMENT 'thoi gian lop hoc bat dau'",nullable = false)
-    LocalTime startTime;
+    @Column(columnDefinition = "DATE COMMENT 'thoi gian lop hoc bat dau'",nullable = false)
+    LocalDate startTime;
 
-    @Column(columnDefinition = "DATETIME COMMENT 'thoi gian lop hoc ket thuc'",nullable = false)
-    LocalTime endTime;
+    @Column(columnDefinition = "DATE COMMENT 'thoi gian lop hoc ket thuc'",nullable = false)
+    LocalDate endTime;
 
     @Enumerated(EnumType.STRING)
     ClassType type;

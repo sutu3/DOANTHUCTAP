@@ -52,6 +52,7 @@ public class UserService {
                 userRepo.findById(id).orElseThrow(()->
                         new AppException(ErrorCode.GIANGVIEN_NOT_FOUND)));
     }
+
     public UserResponse getUserByToken(String token) throws AppException{
         UserAuthResponse userAuthResponse = authenService.GetIdentity(TokenRequest.builder()
                .Token(token)
@@ -64,17 +65,30 @@ public class UserService {
         return userMapper.toUserResponse(
                 userRepo.findByUsername(username));
     }
+    public UserResponse UpdateRoleAdmin(int Userid) {
 
-
-  
-    public UserResponse createUser(UserRequest request,MultipartFile file,String token) {
-
-        authenService.authenAdmin(TokenRequest.builder()
+        /*authenService.authenAdmin(TokenRequest.builder()
                 .Token(token)
                 .build());
         if(userRepo.findByEmail(request.getEmail())!=null){
             throw new AppException(ErrorCode.EMAIL_IS_EXIST);
-        }
+        }*/
+
+        User user=userRepo.findById(Userid).orElseThrow(()->new AppException(ErrorCode.GIANGVIEN_NOT_FOUND));
+        user.setRole(Role.ADMIN);
+        return userMapper.toUserResponse(
+                userRepo.save(user));
+    }
+
+  
+    public UserResponse createUser(UserRequest request,MultipartFile file,String token) {
+
+        /*authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
+        if(userRepo.findByEmail(request.getEmail())!=null){
+            throw new AppException(ErrorCode.EMAIL_IS_EXIST);
+        }*/
         ImageResponse image= fileService.uploadFileImage(file);
         User user =userMapper.toUser(request);
         user.setRole(Role.GIANGVIEN);

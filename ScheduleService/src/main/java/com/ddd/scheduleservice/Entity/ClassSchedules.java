@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -32,7 +34,8 @@ public class ClassSchedules {
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
     @JoinColumn(name = "shiftId", nullable = false)
     Shift shift;
-
+    @Column(columnDefinition = "DATE COMMENT 'thoi gian lop hoc mo'",nullable = false)
+    LocalDate dateStart;
     @Enumerated(EnumType.STRING)
     DayOfWeek dayOfWeek;
 }

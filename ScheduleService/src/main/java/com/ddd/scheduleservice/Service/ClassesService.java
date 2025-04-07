@@ -6,17 +6,21 @@ import com.ddd.scheduleservice.Dto.Response.ClassesResponse;
 import com.ddd.scheduleservice.Entity.*;
 import com.ddd.scheduleservice.Enum.ClassStatus;
 import com.ddd.scheduleservice.Enum.ClassType;
+import com.ddd.scheduleservice.Enum.DayOfWeek;
 import com.ddd.scheduleservice.Exception.AppException;
 import com.ddd.scheduleservice.Exception.ErrorCode;
 import com.ddd.scheduleservice.Form.ClassesUpdate;
 import com.ddd.scheduleservice.Mapper.ClassesMapper;
 import com.ddd.scheduleservice.Repo.*;
+import com.ddd.scheduleservice.Util.DayOfWeekUtil;
+import com.ddd.scheduleservice.Util.IsvalidDate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +36,8 @@ public class ClassesService {
     SubjectRepo subjectRepo;
     ShiftRepo shiftRepo;
     RoomRepo roomRepo;
+    IsvalidDate isvalidDate;
+    DayOfWeekUtil dayOfWeekUtil;
     private final AuthenService authenService;
 
 
@@ -65,15 +71,19 @@ public class ClassesService {
 
         Room roomupdate=roomRepo.findById(request.getRoom_id())
                 .orElseThrow(()->new AppException(ErrorCode.PHONGMAY_NOT_FOUND));
-        entity.setStartTime(shiftupdate.getStartTime());
-        entity.setEndTime(shiftupdate.getEndTime());
+        entity.setStartTime(request.getStartTime());
+        entity.setEndTime(request.getEndTime());
         entity.setType(ClassType.OFFLINE);
         entity.setStatus(ClassStatus.DANG_DIEN_RA);
         entity.setUser(userupdate);
         entity.setSubject(subjectupdate);
         entity.setShift(shiftupdate);
         entity.setRoom(roomupdate);
-        return classesMapper.toClassesResponse(classesRepo.save(entity));
+        Classes classes=classesRepo.save(entity);
+        System.out.print(classes.getClassId());
+        DayOfWeek dayOfWeek=dayOfWeekUtil.dayOfWeek(request.getStartTime().atTime(LocalTime.now()));
+        isvalidDate.isValidClassSchedule(request.getStartTime(),request.getEndTime(),dayOfWeek,classes);
+        return classesMapper.toClassesResponse(classes);
     }
 
     public ClassesResponse updateClass(int id, ClassesUpdate request) {
@@ -92,8 +102,6 @@ public class ClassesService {
         Room roomupdate=roomRepo.findById(request.getRoom_id())
                 .orElseThrow(()->new AppException(ErrorCode.PHONGMAY_NOT_FOUND));
         classesMapper.updateClasses(entity,request);
-        entity.setStartTime(shiftupdate.getStartTime());
-        entity.setEndTime(shiftupdate.getEndTime());
         entity.setUser(userupdate);
         entity.setSubject(subjectupdate);
         entity.setRoom(roomupdate);
