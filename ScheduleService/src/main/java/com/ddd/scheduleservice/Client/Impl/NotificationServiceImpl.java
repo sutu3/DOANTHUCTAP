@@ -1,5 +1,6 @@
-package com.ddd.scheduleservice.Client;
+package com.ddd.scheduleservice.Client.Impl;
 
+import com.ddd.scheduleservice.Client.NotificationService;
 import com.ddd.scheduleservice.Dto.Request.NotificationApprove;
 import com.ddd.scheduleservice.Dto.Request.NotificationReject;
 import com.ddd.scheduleservice.Exception.AppException;

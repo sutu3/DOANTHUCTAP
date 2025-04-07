@@ -32,9 +32,13 @@ public class UserController {
     }
     @PostMapping("/create")
     public ApiResponse<UserResponse> createUser(@RequestParam("file") MultipartFile file,
-                                                @RequestPart("request") UserRequest request) {
+                                                @RequestPart("request") UserRequest request,@RequestHeader("Authorization") String authHeader) {
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<UserResponse>builder()
-                .Result(UserService.createUser(request, file))
+                .Result(UserService.createUser(request, file,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();
@@ -56,9 +60,29 @@ public class UserController {
                 .message("SuccessFull")
                 .build();
     }
+    @GetMapping("/myinfo")
+    public ApiResponse<UserResponse> GetmyInfor(
+            @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
+
+        return ApiResponse.<UserResponse>builder()
+                .Result(UserService.getUserByToken(token))
+                .success(true).code(0)
+                .message("SuccessFull")
+                .build();
+    }
     @DeleteMapping("/delete/{id}")
-    public ApiResponse<String> deleteUser(@PathVariable int id){
-        UserService.deleteUser(id);
+    public ApiResponse<String> deleteUser(
+            @PathVariable int id,
+            @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
+        UserService.deleteUser(id,token);
         return ApiResponse.<String>builder()
                 .Result("Deleted SuccessFull")
                 .success(true).code(0)

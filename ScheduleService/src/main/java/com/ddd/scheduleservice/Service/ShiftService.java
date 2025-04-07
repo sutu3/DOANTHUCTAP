@@ -1,6 +1,7 @@
 package com.ddd.scheduleservice.Service;
 
 import com.ddd.scheduleservice.Dto.Request.ShiftRequest;
+import com.ddd.scheduleservice.Dto.Request.TokenRequest;
 import com.ddd.scheduleservice.Dto.Response.ShiftResponse;
 import com.ddd.scheduleservice.Entity.Shift;
 import com.ddd.scheduleservice.Exception.AppException;
@@ -25,6 +26,7 @@ public class ShiftService {
     private final ShiftMapper shiftMapper;
 
     ShiftRepo shiftRepo;
+    private final AuthenService authenService;
 
 
     public List<ShiftResponse> getAllShifts() {
@@ -41,13 +43,19 @@ public class ShiftService {
     }
 
 
-    public ShiftResponse createShift(ShiftRequest request) {
+    public ShiftResponse createShift(ShiftRequest request,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         Shift shift=shiftMapper.toShift(request);
         return shiftMapper.toShiftResponse(shiftRepo.save(shift));
     }
 
 
-    public ShiftResponse updateShift(int id, ShiftUpdate shiftDetails) {
+    public ShiftResponse updateShift(int id, ShiftUpdate shiftDetails,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         Shift shift=shiftRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.CA_NOT_FOUND));
         shiftMapper.updateShift(shift,shiftDetails);

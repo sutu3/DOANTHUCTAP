@@ -24,7 +24,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="MonitorAdmin" />
         <module name="ConfigService" />
-        <module name="GateService" />
         <module name="Discoveryservice" />
       </profile>
       <profile name="Annotation profile for ServiceTEACSCHEDULE_AND_MAKE-UP_SCHEDULE_SERVICE" enabled="true">
@@ -39,6 +38,7 @@
         </processorPath>
         <module name="NotificationService" />
         <module name="FileService" />
+        <module name="GateService" />
         <module name="ScheduleService (1) (com.DDD)" />
         <module name="ScheduleService" />
       </profile>

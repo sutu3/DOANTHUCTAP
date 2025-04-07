@@ -1,6 +1,15 @@
 spring:
   application:
     name: ConfigService
+  zipkin:
+    baseUrl: http://localhost:9411  # Địa chỉ Zipkin (Nếu bạn chạy Zipkin local trên cổng 9411)
+    enabled: true
+    sleuth:
+      sampler:
+        probability: 1.0  # Tracing cho tất cả các request
+      web:
+        client:
+          enabled: true
   profiles:
     active: native
   cloud:

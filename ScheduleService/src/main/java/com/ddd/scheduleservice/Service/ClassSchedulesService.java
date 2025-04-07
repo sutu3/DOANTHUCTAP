@@ -1,6 +1,7 @@
 package com.ddd.scheduleservice.Service;
 
 import com.ddd.scheduleservice.Dto.Request.ClassSchedulesRequest;
+import com.ddd.scheduleservice.Dto.Request.TokenRequest;
 import com.ddd.scheduleservice.Dto.Response.ClassSchedulesResponse;
 import com.ddd.scheduleservice.Entity.ClassSchedules;
 import com.ddd.scheduleservice.Entity.Classes;
@@ -34,6 +35,7 @@ public class ClassSchedulesService {
     ClassSchedulesRepo classSchedulesRepo;
     ShiftRepo shiftRepo;
     RoomRepo roomRepo;
+    AuthenService authenService;
     ClassesRepo classesRepo;
     DayOfWeekUtil dayOfWeekUtil;
 
@@ -49,8 +51,10 @@ public class ClassSchedulesService {
                 classSchedulesRepo.findById(id).orElseThrow(
                         ()->new AppException(ErrorCode.LICHGIANGDAY_NOT_FOUND)));
     }
-    public ClassSchedulesResponse createClassSchedule(ClassSchedulesRequest request) {
-
+    public ClassSchedulesResponse createClassSchedule(ClassSchedulesRequest request,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         DayOfWeek dayOfWeek=dayOfWeekUtil.dayOfWeek(request.getDayOfWeek());
         if( classSchedulesRepo.findFirstByClasses_Shift_ShiftIdAndDayOfWeek(
                 request.getShift_id(),dayOfWeek)!=null){

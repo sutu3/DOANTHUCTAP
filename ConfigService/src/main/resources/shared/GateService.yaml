@@ -18,8 +18,8 @@ spring:
             - Path=/schedule/**
           filters:
             - StripPrefix=1
-        - id: authen-routes
-          uri: lb://Authen_Service
+        - id: Auth_routes
+          uri: http://localhost:5125
           predicates:
             - Path=/authen/**
           filters:

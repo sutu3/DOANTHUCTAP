@@ -49,17 +49,28 @@ public class MakeupRequestController {
 
     }
     @PutMapping("/update/reject/{id}")
-    public ApiResponse<MakeupRequestDTOResponse> updateRejectMakeupRequestDTO(@PathVariable int id){
+    public ApiResponse<MakeupRequestDTOResponse> updateRejectMakeupRequestDTO(@PathVariable int id,
+                                                                              @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<MakeupRequestDTOResponse>builder()
-                .Result(makeupRequestService.RejectRequest(id))
+                .Result(makeupRequestService.RejectRequest(id,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();
     }
     @PutMapping("/update/approve/{id}")
-    public ApiResponse<ClassSchedulesResponse> updateApproveMakeupRequestDTO(@PathVariable int id, @RequestBody MakeupRequestUpdate update){
+    public ApiResponse<ClassSchedulesResponse> updateApproveMakeupRequestDTO(@PathVariable int id,
+                                                                             @RequestBody MakeupRequestUpdate update,
+                                                                             @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<ClassSchedulesResponse>builder()
-                .Result(makeupRequestService.Approve(id, update))
+                .Result(makeupRequestService.Approve(id, update,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();

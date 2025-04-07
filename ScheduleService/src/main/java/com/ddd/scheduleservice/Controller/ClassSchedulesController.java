@@ -29,9 +29,14 @@ public class ClassSchedulesController {
                 .build();
     }
     @PostMapping("/create")
-    public ApiResponse<ClassSchedulesResponse> createClassSchedules(@RequestBody ClassSchedulesRequest request){
+    public ApiResponse<ClassSchedulesResponse> createClassSchedules(@RequestBody ClassSchedulesRequest request,
+                                                                    @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<ClassSchedulesResponse>builder()
-                .Result(ClassSchedulesService.createClassSchedule(request))
+                .Result(ClassSchedulesService.createClassSchedule(request,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();

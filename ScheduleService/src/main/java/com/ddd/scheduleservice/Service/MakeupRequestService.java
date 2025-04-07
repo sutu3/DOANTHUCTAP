@@ -33,6 +33,7 @@ public class MakeupRequestService {
     MakeupRequestMapper makeupRequestMapper;
     NotificationService notificationService;
     UserRepo userRepo;
+    AuthenService authenService;
     RoomRepo roomRepo;
     SubjectRepo subjectRepo;
     ClassesRepo classesRepo;
@@ -58,7 +59,7 @@ public class MakeupRequestService {
     public MakeupRequestDTOResponse createMakeupRequest(MakeupRequestDTORequest request) {
         MakeupRequest makeupRequest=makeupRequestMapper.toMakeupRequestDTO(request);
 
-        User user=userRepo.findById(request.getUser_id())
+        User user =userRepo.findById(request.getUser_id())
                 .orElseThrow(()->new AppException(ErrorCode.GIANGVIEN_NOT_FOUND));
         Room room=roomRepo.findById(request.getRoom_id())
                 .orElseThrow(()->new AppException(ErrorCode.PHONGMAY_NOT_FOUND));
@@ -72,7 +73,10 @@ public class MakeupRequestService {
                 makeupRequestRepo.save(makeupRequest));
     }
 
-    public MakeupRequestDTOResponse RejectRequest(int id) {
+    public MakeupRequestDTOResponse RejectRequest(int id,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.DANGKYBU_NOT_FOUND));
         makeupRequest.setStatus(RequestStatus.REJECTED);
@@ -89,7 +93,8 @@ public class MakeupRequestService {
                 .build());
         return makeupRequestMapper.toMakeupRequestDTOResponse(makeupRequestUpdate);
     }
-    public ClassSchedulesResponse Approve(int id, MakeupRequestUpdate update){
+    public ClassSchedulesResponse Approve(int id, MakeupRequestUpdate update,String token){
+
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.DANGKYBU_NOT_FOUND));
         makeupRequest.setStatus(RequestStatus.APPROVED);
@@ -108,7 +113,7 @@ public class MakeupRequestService {
                             .user_id(makeupRequest.getUser().getUserId())
                             .shift_id(shift.getShiftId())
                             .room_id(makeupRequest.getRoom().getRoomId())
-                    .build()).getClassId();
+                    .build(),token).getClassId();
         }else {
             classId = classes.getClassId();
         }
@@ -120,7 +125,7 @@ public class MakeupRequestService {
                 .room_id(makeupRequestApprove.getRoom().getRoomId())
                 .shift_id(update.getShift_id())
                 .dayOfWeek(makeupRequestApprove.getMakeupDate())
-                .build());
+                .build(),token);
         notificationService.sendMailApprove(NotificationApprove.builder()
                 .id(makeupRequestApprove.getRequestId())
                 .to(makeupRequestApprove.getUser().getEmail())

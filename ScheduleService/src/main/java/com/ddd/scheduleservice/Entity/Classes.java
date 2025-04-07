@@ -37,7 +37,7 @@ public class Classes {
 
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
     @JoinColumn(name = "userId", nullable = false)
-     User user;
+    User user;
 
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
     @JoinColumn(name = "shiftId", nullable = false)

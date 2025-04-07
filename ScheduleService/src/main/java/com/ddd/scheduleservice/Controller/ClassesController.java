@@ -30,9 +30,14 @@ public class ClassesController {
                 .build();
     }
     @PostMapping("/create")
-    public ApiResponse<ClassesResponse> createClasses(@RequestBody ClassesRequest request){
+    public ApiResponse<ClassesResponse> createClasses(@RequestBody ClassesRequest request,
+                                                      @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<ClassesResponse>builder()
-                .Result(ClassesService.createClass(request))
+                .Result(ClassesService.createClass(request,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();

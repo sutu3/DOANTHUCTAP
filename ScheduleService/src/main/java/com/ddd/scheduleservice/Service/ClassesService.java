@@ -1,6 +1,7 @@
 package com.ddd.scheduleservice.Service;
 
 import com.ddd.scheduleservice.Dto.Request.ClassesRequest;
+import com.ddd.scheduleservice.Dto.Request.TokenRequest;
 import com.ddd.scheduleservice.Dto.Response.ClassesResponse;
 import com.ddd.scheduleservice.Entity.*;
 import com.ddd.scheduleservice.Enum.ClassStatus;
@@ -31,6 +32,7 @@ public class ClassesService {
     SubjectRepo subjectRepo;
     ShiftRepo shiftRepo;
     RoomRepo roomRepo;
+    private final AuthenService authenService;
 
 
     public List<ClassesResponse> getAll() {
@@ -41,11 +43,15 @@ public class ClassesService {
 
    
     public ClassesResponse getById(int id) {
+
         return classesMapper.toClassesResponse( classesRepo.findById(id)
                 .orElseThrow(()->new AppException(ErrorCode.LOP_NOT_FOUND)));
     }
 
-    public ClassesResponse createClass(ClassesRequest request) {
+    public ClassesResponse createClass(ClassesRequest request,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         Classes entity=classesMapper.toClasses(request);
 
         User userupdate=userRepo.findById(request.getUser_id())

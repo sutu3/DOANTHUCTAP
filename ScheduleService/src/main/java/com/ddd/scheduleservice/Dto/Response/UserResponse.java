@@ -24,8 +24,8 @@ public class UserResponse {
     String fullname;
     String email;
     String imageUrl;
-    List<MakeupRequestDTOResponse> makeupRequests;
-    List<ClassesResponseNoList> classes;
+    List<MakeupRequestDTOResponseNoUser> makeupRequests;
+    List<ClassesResponseNoListNoUser> classes;
     Role role;
     LocalDateTime createdAt;
     LocalDateTime updatedAt;

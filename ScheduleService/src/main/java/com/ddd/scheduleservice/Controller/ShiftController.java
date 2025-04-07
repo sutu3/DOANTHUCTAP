@@ -30,9 +30,14 @@ public class ShiftController {
                 .build();
     }
     @PostMapping("/create")
-    public ApiResponse<ShiftResponse> createShift(@RequestBody ShiftRequest request){
+    public ApiResponse<ShiftResponse> createShift(@RequestBody ShiftRequest request,
+                                                  @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<ShiftResponse>builder()
-                .Result(shiftService.createShift(request))
+                .Result(shiftService.createShift(request,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();
@@ -47,9 +52,15 @@ public class ShiftController {
 
     }
     @PutMapping("/update/{id}")
-    public ApiResponse<ShiftResponse> updateShift(@PathVariable int id, @RequestBody ShiftUpdate request){
+    public ApiResponse<ShiftResponse> updateShift(@PathVariable int id,
+                                                  @RequestBody ShiftUpdate request,
+                                                  @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<ShiftResponse>builder()
-                .Result(shiftService.updateShift(id, request))
+                .Result(shiftService.updateShift(id, request,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();

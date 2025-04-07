@@ -30,9 +30,14 @@ public class SubjectController {
                 .build();
     }
     @PostMapping("/create")
-    public ApiResponse<SubjectResponse> createSubject(@RequestBody SubjectRequest request){
+    public ApiResponse<SubjectResponse> createSubject(@RequestBody SubjectRequest request,
+                                                      @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<SubjectResponse>builder()
-                .Result(SubjectService.createSubject(request))
+                .Result(SubjectService.createSubject(request,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();
@@ -47,9 +52,15 @@ public class SubjectController {
 
     }
     @PutMapping("/update/{id}")
-    public ApiResponse<SubjectResponse> updateSubject(@PathVariable int id, @RequestBody SubjectUpdate request){
+    public ApiResponse<SubjectResponse> updateSubject(@PathVariable int id,
+                                                      @RequestBody SubjectUpdate request,
+                                                      @RequestHeader("Authorization") String authHeader){
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);  // Loại bỏ "Bearer " từ token
+        }
         return ApiResponse.<SubjectResponse>builder()
-                .Result(SubjectService.updateSubject(id, request))
+                .Result(SubjectService.updateSubject(id, request,token))
                 .success(true).code(0)
                 .message("SuccessFull")
                 .build();

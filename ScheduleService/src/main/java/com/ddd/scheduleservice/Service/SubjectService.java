@@ -1,6 +1,7 @@
 package com.ddd.scheduleservice.Service;
 
 import com.ddd.scheduleservice.Dto.Request.SubjectRequest;
+import com.ddd.scheduleservice.Dto.Request.TokenRequest;
 import com.ddd.scheduleservice.Dto.Response.SubjectResponse;
 import com.ddd.scheduleservice.Entity.Subject;
 import com.ddd.scheduleservice.Exception.AppException;
@@ -22,9 +23,10 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 public class SubjectService {
-    private final SubjectMapper subjectMapper;
+    SubjectMapper subjectMapper;
 
     SubjectRepo subjectRepo;
+    private final AuthenService authenService;
 
     public List<SubjectResponse> getAllSubjects() {
         return subjectRepo.findAll().stream()
@@ -40,13 +42,19 @@ public class SubjectService {
     }
 
 
-    public SubjectResponse createSubject(SubjectRequest request) {
+    public SubjectResponse createSubject(SubjectRequest request,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         Subject subject=subjectMapper.toSubject(request);
         return subjectMapper.toSubjectResponse(subjectRepo.save(subject));
     }
 
 
-    public SubjectResponse updateSubject(int id, SubjectUpdate update) {
+    public SubjectResponse updateSubject(int id, SubjectUpdate update,String token) {
+        authenService.authenAdmin(TokenRequest.builder()
+                .Token(token)
+                .build());
         Subject subject= subjectRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.MONHOC_NOT_FOUND));
         subjectMapper.updateSubject(subject, update);

@@ -31,6 +31,7 @@ public class User {
 
     @Column(columnDefinition = "varchar(255) COMMENT 'mật khẩu'",nullable = false)
     String password;
+
     @Column(columnDefinition = "varchar(255) COMMENT 'url ảnh'",nullable = false)
     String imageUrl;
 
@@ -39,11 +40,11 @@ public class User {
 
     @Column(columnDefinition = "varchar(255) COMMENT 'tên ca'",nullable = false,unique = true)
     String email;
-    @OneToMany(mappedBy ="user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     List<MakeupRequest> makeupRequests;
-    @OneToMany(mappedBy ="user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     List<Classes> classes;
-    @OneToMany(mappedBy ="user",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     List<Notification> notifications;
 
     @Enumerated(EnumType.STRING)
