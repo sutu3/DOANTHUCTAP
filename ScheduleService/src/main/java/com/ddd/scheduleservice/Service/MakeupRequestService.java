@@ -19,6 +19,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -110,6 +111,8 @@ public class MakeupRequestService {
         if(classes==null){
             classId=classesService.createClass(ClassesRequest.builder()
                     .subject_id(makeupRequest.getSubject().getSubjectId())
+                            .endTime(makeupRequest.getMakeupDate().toLocalDate().plusDays(1))
+                            .startTime(makeupRequest.getMakeupDate().toLocalDate())
                             .user_id(makeupRequest.getUser().getUserId())
                             .shift_id(shift.getShiftId())
                             .room_id(makeupRequest.getRoom().getRoomId())
@@ -119,13 +122,13 @@ public class MakeupRequestService {
         }
         MakeupRequest makeupRequestApprove=makeupRequestRepo.save(makeupRequest);
 
-        ClassSchedulesResponse classSchedulesResponse=classSchedulesService.createClassSchedule(
+       /* ClassSchedulesResponse classSchedulesResponse=classSchedulesService.createClassSchedule(
                 ClassSchedulesRequest.builder()
                 .class_id(classId)
                 .room_id(makeupRequestApprove.getRoom().getRoomId())
                 .shift_id(update.getShift_id())
                 .dayOfWeek(makeupRequestApprove.getMakeupDate())
-                .build());
+                .build());*/
         notificationService.sendMailApprove(NotificationApprove.builder()
                 .id(makeupRequestApprove.getRequestId())
                 .to(makeupRequestApprove.getUser().getEmail())
