@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @Slf4j
 public class MakeupRequestService {
+    private final ClassSchedulesRepo classSchedulesRepo;
 
     MakeupRequestRepo makeupRequestRepo;
     MakeupRequestMapper makeupRequestMapper;
@@ -101,13 +102,16 @@ public class MakeupRequestService {
         makeupRequest.setStatus(RequestStatus.APPROVED);
         makeupRequest.setApprovedAt(LocalDateTime.now());
         makeupRequest.setMakeupDate(update.getMakeupDate());
-        Classes classes=classesRepo.findFirstBySubject_SubjectIdAndRoom_RoomIdAndUser_UserId(
-                makeupRequest.getSubject().getSubjectId(),
-                makeupRequest.getRoom().getRoomId(),
-                makeupRequest.getUser().getUserId());
-        int classId=0;
         Shift shift=shiftRepo.findById(update.getShift_id())
                 .orElseThrow(()->new AppException(ErrorCode.CA_NOT_FOUND));
+        Classes classes=classesRepo.findFirstBySubject_SubjectIdAndRoom_RoomIdAndUser_UserIdAndShift_ShiftIdAndClassesSchedules_DateStart(
+                makeupRequest.getSubject().getSubjectId(),
+                makeupRequest.getRoom().getRoomId(),
+                makeupRequest.getUser().getUserId(),
+                shift.getShiftId(),
+                update.getMakeupDate().toLocalDate());
+        int classId=0;
+
         if(classes==null){
             classId=classesService.createClass(ClassesRequest.builder()
                     .subject_id(makeupRequest.getSubject().getSubjectId())
@@ -118,17 +122,13 @@ public class MakeupRequestService {
                             .room_id(makeupRequest.getRoom().getRoomId())
                     .build(),token).getClassId();
         }else {
-            classId = classes.getClassId();
+            throw new AppException(ErrorCode.CLASS_SCHEDULES_IS_EXIST);
         }
         MakeupRequest makeupRequestApprove=makeupRequestRepo.save(makeupRequest);
 
-       /* ClassSchedulesResponse classSchedulesResponse=classSchedulesService.createClassSchedule(
-                ClassSchedulesRequest.builder()
-                .class_id(classId)
-                .room_id(makeupRequestApprove.getRoom().getRoomId())
-                .shift_id(update.getShift_id())
-                .dayOfWeek(makeupRequestApprove.getMakeupDate())
-                .build());*/
+
+        ClassSchedulesResponse classSchedulesResponse=classSchedulesMapper.toClassSchedulesResponse(
+                classSchedulesRepo.findByClasses_ClassId(classId));
         notificationService.sendMailApprove(NotificationApprove.builder()
                 .id(makeupRequestApprove.getRequestId())
                 .to(makeupRequestApprove.getUser().getEmail())
