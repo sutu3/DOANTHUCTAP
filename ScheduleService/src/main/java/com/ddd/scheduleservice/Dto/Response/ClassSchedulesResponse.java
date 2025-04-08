@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,9 +16,12 @@ import lombok.experimental.FieldDefaults;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ClassSchedulesResponse {
     Integer scheduleId;
-    ClassesResponseNoList classes;/*
-    RoomResponse room;
-    ShiftResponseNoList shift;*/
+    String subjectName;
+    String userName;
+    LocalTime startTime;
+    LocalTime endTime;
+    String roomName;
+    String location;
     DayOfWeek dayOfWeek;
 }
 

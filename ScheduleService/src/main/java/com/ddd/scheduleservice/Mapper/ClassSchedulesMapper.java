@@ -13,6 +13,12 @@ public interface ClassSchedulesMapper {
     @Mapping(target = "shift",ignore = true)
     @Mapping(target = "dayOfWeek",ignore = true)
     ClassSchedules toClassSchedules(ClassSchedulesRequest request);
+    @Mapping(source = "classes.subject.subjectName", target = "subjectName")
+    @Mapping(source = "classes.user.username", target = "userName")
+    @Mapping(source = "classes.shift.startTime", target = "startTime")
+    @Mapping(source = "classes.shift.endTime", target = "endTime")
+    @Mapping(source = "classes.room.roomName", target = "roomName")
+    @Mapping(source = "classes.room.location", target = "location")
     ClassSchedulesResponse toClassSchedulesResponse(ClassSchedules ClassSchedules);
     /*@Mapping(target = "subject",ignore = true)
     @Mapping(target = "user",ignore = true)

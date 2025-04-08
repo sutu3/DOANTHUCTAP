@@ -22,7 +22,7 @@ public class SubjectResponse {
     String description;
 
     List<ClassesResponse> classes;
-    List<MakeupRequest> makeupRequests;
+    /*List<MakeupRequest> makeupRequests;*/
     LocalDateTime createdAt;
     LocalDateTime updatedAt;
 }
