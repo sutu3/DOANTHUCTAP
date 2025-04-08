@@ -19,6 +19,7 @@ public class ClassSchedulesResponse {
     String subjectName;
     String userName;
     LocalTime startTime;
+    LocalDate dateStart;
     LocalTime endTime;
     String roomName;
     String location;

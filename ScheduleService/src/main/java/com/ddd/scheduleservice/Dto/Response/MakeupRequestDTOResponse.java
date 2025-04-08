@@ -21,6 +21,7 @@ public class MakeupRequestDTOResponse {
     SubjectResponseNoList subject;
      LocalDateTime requestTime;
      RequestStatus status;
+
     String reason;
     LocalDateTime approvedAt;
     LocalDateTime makeupDate;
