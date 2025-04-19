@@ -1,8 +1,11 @@
 package com.ddd.scheduleservice.Service;
 
+import com.ddd.scheduleservice.Client.NotificationService;
 import com.ddd.scheduleservice.Dto.Request.ClassesRequest;
+import com.ddd.scheduleservice.Dto.Request.NotificationRequest;
 import com.ddd.scheduleservice.Dto.Request.TokenRequest;
 import com.ddd.scheduleservice.Dto.Response.ClassesResponse;
+import com.ddd.scheduleservice.Dto.Response.NotificationResponse;
 import com.ddd.scheduleservice.Entity.*;
 import com.ddd.scheduleservice.Enum.ClassStatus;
 import com.ddd.scheduleservice.Enum.ClassType;
@@ -30,7 +33,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ClassesService {
     ClassesMapper classesMapper;
-
     ClassesRepo classesRepo;
     UserRepo userRepo;
     SubjectRepo subjectRepo;
@@ -39,6 +41,8 @@ public class ClassesService {
     IsvalidDate isvalidDate;
     DayOfWeekUtil dayOfWeekUtil;
     private final AuthenService authenService;
+    private final NotificationService notificationService;
+    NotificationScheduleService notificationScheduleService;
 
 
     public List<ClassesResponse> getAll() {
@@ -56,7 +60,7 @@ public class ClassesService {
 
     public ClassesResponse createClass(ClassesRequest request,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         Classes entity=classesMapper.toClasses(request);
 
@@ -83,6 +87,9 @@ public class ClassesService {
         System.out.print(classes.getClassId());
         DayOfWeek dayOfWeek=dayOfWeekUtil.dayOfWeek(request.getStartTime().atTime(LocalTime.now()));
         isvalidDate.isValidClassSchedule(request.getStartTime(),request.getEndTime(),dayOfWeek,classes);
+        NotificationResponse response=notificationScheduleService.createNotification(NotificationRequest.builder()
+                .email_user(userupdate.getEmail())
+                .message("Quản lý đã tạo ra lịch giảng dạy xin bạn hãy vào trang web xem và sắp xếp lịch").build());
         return classesMapper.toClassesResponse(classes);
     }
 

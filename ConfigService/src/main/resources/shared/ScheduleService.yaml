@@ -4,6 +4,13 @@ spring:
       enabled: true
       max-file-size: 2MB
       max-request-size: 2MB
+  kafka:
+    bootstrap-servers: localhost:9094
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: -1
+      retries: 1
   datasource:
     url: jdbc:mysql://localhost:3306/sheduledb
     username: root

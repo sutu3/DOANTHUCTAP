@@ -1,6 +1,7 @@
 package com.ddd.notificationservice.Service;
 
 import com.ddd.notificationservice.Entity.NotificationApprove;
+import com.ddd.notificationservice.Entity.NotificationMessage;
 import com.ddd.notificationservice.Entity.NotificationReject;
 import com.ddd.notificationservice.Service.Impl.JavaMailSender;
 import jakarta.mail.MessagingException;
@@ -78,8 +79,27 @@ public class JavaMailService implements JavaMailSender {
             return new String("❌ Email sending failed: " + e.getMessage());
         }
     }
+
     @Override
-    public String javasendMailAttach(NotificationReject messageMail) {
-        return "";
+    public String javasendMailMessage(NotificationMessage messageMail) {
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, StandardCharsets.UTF_8.name());
+
+            Context context = new Context();
+            context.setVariable("name", messageMail.getUser().getFullname());
+            context.setVariable("message", messageMail.getMessage());
+            String html = templateEngine.process("messageemail", context);
+
+            helper.setTo(messageMail.getUser().getEmail());
+            helper.setText(html, true);  // <--- Đảm bảo nội dung email đúng
+            helper.setSubject("Tin nhắn từ lịch giảng dạy");
+            helper.setFrom("minhdaimk111@gmail.com");
+
+            javaMailSender.send(message);
+            return new String("✅ Email sent successfully!");
+        } catch (MessagingException e) {
+            return new String("❌ Email sending failed: " + e.getMessage());
+        }
     }
 }

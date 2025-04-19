@@ -44,7 +44,7 @@ public class SubjectService {
 
     public SubjectResponse createSubject(SubjectRequest request,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         Subject subject=subjectMapper.toSubject(request);
         return subjectMapper.toSubjectResponse(subjectRepo.save(subject));
@@ -53,7 +53,7 @@ public class SubjectService {
 
     public SubjectResponse updateSubject(int id, SubjectUpdate update,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         Subject subject= subjectRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.MONHOC_NOT_FOUND));

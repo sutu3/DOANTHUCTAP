@@ -4,24 +4,21 @@ import com.ddd.scheduleservice.Client.AuthApi;
 import com.ddd.scheduleservice.Client.FileService;
 import com.ddd.scheduleservice.Dto.Request.TokenRequest;
 import com.ddd.scheduleservice.Dto.Request.UserRequest;
+import com.ddd.scheduleservice.Dto.Request.UserRequestAuthenService;
 import com.ddd.scheduleservice.Dto.Response.ImageResponse;
 import com.ddd.scheduleservice.Dto.Response.UserAuthResponse;
 import com.ddd.scheduleservice.Dto.Response.UserResponse;
 import com.ddd.scheduleservice.Entity.User;
 import com.ddd.scheduleservice.Enum.Role;
-import com.ddd.scheduleservice.Enum.RoleUser;
 import com.ddd.scheduleservice.Exception.AppException;
 import com.ddd.scheduleservice.Exception.ErrorCode;
 import com.ddd.scheduleservice.Form.UserUpdate;
 import com.ddd.scheduleservice.Mapper.UserMapper;
 import com.ddd.scheduleservice.Repo.UserRepo;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.core5.http.io.HttpServerRequestHandler;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +34,8 @@ public class UserService {
 
     UserRepo userRepo;
     FileService fileService;
-    private final AuthenService authenService;
+    AuthenService authenService;
+    AuthApi authApi;
 
 
     public List<UserResponse> getAllUsers() {
@@ -55,7 +53,7 @@ public class UserService {
 
     public UserResponse getUserByToken(String token) throws AppException{
         UserAuthResponse userAuthResponse = authenService.GetIdentity(TokenRequest.builder()
-               .Token(token)
+               .token(token)
                .build());
         return userMapper.toUserResponse(
                 userRepo.findByEmail(userAuthResponse.getEmail()));
@@ -83,15 +81,19 @@ public class UserService {
   
     public UserResponse createUser(UserRequest request,MultipartFile file,String token) {
 
-        /*authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
-                .build());
         if(userRepo.findByEmail(request.getEmail())!=null){
             throw new AppException(ErrorCode.EMAIL_IS_EXIST);
-        }*/
+        }
+        authApi.createdUser(UserRequestAuthenService.builder()
+                        .userName(request.getUsername())
+                        .email(request.getEmail())
+                        .phoneNumber(request.getPhoneNumber())
+                        .password(request.getPassword())
+                .build(), "Bearer " + token);
+
         ImageResponse image= fileService.uploadFileImage(file);
         User user =userMapper.toUser(request);
-        user.setRole(Role.GIANGVIEN);
+        user.setRole(Role.Teacher);
         user.setImageUrl(image.getUrlImage());
         return userMapper.toUserResponse(
                 userRepo.save(user));
@@ -109,7 +111,7 @@ public class UserService {
    
     public void deleteUser(int id,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         userRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.GIANGVIEN_NOT_FOUND));

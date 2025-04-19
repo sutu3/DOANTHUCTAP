@@ -13,7 +13,13 @@
         <option value="$PROJECT_DIR$/GatewayService/pom.xml" />
         <option value="$PROJECT_DIR$/MonitorAdmin/pom.xml" />
         <option value="$PROJECT_DIR$/FileService/pom.xml" />
+        <option value="$PROJECT_DIR$/AuthenService/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/ServiceTEACSCHEDULE_AND_MAKE-UP_SCHEDULE_SERVICE/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">

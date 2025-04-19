@@ -1,6 +1,7 @@
 spring:
   application:
     name: ScheduleService
+
   config:
     import: configserver:http://localhost:8888
   cloud:

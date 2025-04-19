@@ -21,8 +21,8 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class Notification {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int notificationId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String notificationId;
 
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -36,6 +36,6 @@ public class Notification {
     LocalDateTime notificationTime;
 
     @Enumerated(EnumType.STRING)
-    ReadStatus readStatus = ReadStatus.UNREAD;
+    ReadStatus readStatus;
 }
 

@@ -45,7 +45,7 @@ public class ShiftService {
 
     public ShiftResponse createShift(ShiftRequest request,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         Shift shift=shiftMapper.toShift(request);
         return shiftMapper.toShiftResponse(shiftRepo.save(shift));
@@ -54,7 +54,7 @@ public class ShiftService {
 
     public ShiftResponse updateShift(int id, ShiftUpdate shiftDetails,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         Shift shift=shiftRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.CA_NOT_FOUND));

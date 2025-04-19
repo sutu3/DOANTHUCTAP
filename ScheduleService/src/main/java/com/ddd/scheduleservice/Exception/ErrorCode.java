@@ -20,7 +20,7 @@ public enum ErrorCode {
     EMAIL_IS_EXIST(1004,"email da duoc dang ky",HttpStatus.NOT_FOUND),
     CA_NOT_FOUND(1004,"Khong tim thay Ca hoc",HttpStatus.NOT_FOUND),
     LICHGIANGDAY_NOT_FOUND(1004,"Khong tim thay lich giang day",HttpStatus.NOT_FOUND),
-    UNAUTHENTICATION(1004,"Khong du quyen truy cap",HttpStatus.UNAUTHORIZED),
+    UNAUTHENTICATED(1004,"Khong du quyen truy cap",HttpStatus.UNAUTHORIZED),
     UNCATEGORIZED(9999,"Uncategorized", HttpStatus.INTERNAL_SERVER_ERROR);
     ErrorCode(int Code,String Message, HttpStatusCode sponse){
         this.code = Code;

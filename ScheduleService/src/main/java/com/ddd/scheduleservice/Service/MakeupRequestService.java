@@ -77,7 +77,7 @@ public class MakeupRequestService {
 
     public MakeupRequestDTOResponse RejectRequest(int id,String token) {
         authenService.authenAdmin(TokenRequest.builder()
-                .Token(token)
+                .token(token)
                 .build());
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.DANGKYBU_NOT_FOUND));
