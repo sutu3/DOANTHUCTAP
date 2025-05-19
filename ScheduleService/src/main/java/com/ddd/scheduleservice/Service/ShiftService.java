@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class ShiftService {
                 .collect(Collectors.toList());
     }
 
-   
+
     public ShiftResponse getShiftById(int id) {
         return shiftMapper.toShiftResponse(
                 shiftRepo.findById(id).orElseThrow(()->
@@ -43,6 +44,7 @@ public class ShiftService {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     public ShiftResponse createShift(ShiftRequest request,String token) {
         authenService.authenAdmin(TokenRequest.builder()
                 .token(token)
@@ -51,7 +53,7 @@ public class ShiftService {
         return shiftMapper.toShiftResponse(shiftRepo.save(shift));
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     public ShiftResponse updateShift(int id, ShiftUpdate shiftDetails,String token) {
         authenService.authenAdmin(TokenRequest.builder()
                 .token(token)

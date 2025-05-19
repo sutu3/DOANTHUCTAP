@@ -45,9 +45,6 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     List<Notification> notifications;
 
-    @Enumerated(EnumType.STRING)
-    Role role;
-
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     @CreationTimestamp
     LocalDateTime createdAt;

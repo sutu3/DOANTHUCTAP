@@ -5,4 +5,12 @@ spring:
     import: configserver:http://localhost:8888
   cloud:
     config:
+      gateway:
+        globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins: "http://localhost:5173"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+              allowCredentials: true
       fail-fast: true

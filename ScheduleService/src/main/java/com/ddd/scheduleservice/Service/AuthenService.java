@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthenService {
     private final AuthApi authApi;
-    @PreAuthorize("hasRole('ADMIN')")
     public void authenAdmin(TokenRequest token){
         try {
             boolean introspectResponse = authApi.introspect(token).getResult().isValid(); // Call to the Auth API
@@ -70,7 +70,7 @@ public class AuthenService {
             // Log role for debugging
             log.info("User role: {}", user.getRole());
 
-            if (!user.getRole().name().equals(Role.Teacher.name())) {
+            if (!user.getRole().name().equals(Role.TEACHER.name())) {
                 throw new AppException(ErrorCode.UNAUTHENTICATED);
             }
         } catch (Exception e) {

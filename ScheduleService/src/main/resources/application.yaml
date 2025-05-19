@@ -3,8 +3,17 @@ spring:
     name: ScheduleService
 
   config:
+
     import: configserver:http://localhost:8888
   cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
     config:
       fail-fast: true
 logging:

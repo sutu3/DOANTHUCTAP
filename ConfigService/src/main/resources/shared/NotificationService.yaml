@@ -1,6 +1,6 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9094
+    bootstrap-servers: localhost:9193
     consumer:
       group-id: notificationGroup
       auto-offset-reset: latest  # Đọc từ tin nhắn mới nhất (nếu cần tin cũ thì giữ 'earliest')

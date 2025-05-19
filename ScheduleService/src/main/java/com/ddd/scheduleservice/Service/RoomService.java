@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +39,7 @@ public class RoomService {
                 new AppException(ErrorCode.PHONGMAY_NOT_FOUND)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public RoomResponse createRoom(RoomRequest request) {
         Room room=roomMapper.toRoom(request);
         return roomMapper.toRoomResponse(roomRepo.save(room));

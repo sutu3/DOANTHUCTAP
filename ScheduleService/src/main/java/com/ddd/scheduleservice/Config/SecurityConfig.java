@@ -6,10 +6,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -17,7 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_ENDPOINTS = {
-        "/users/registration"
+            "/users/*", "/shifts/*", "/subjects/*", "/rooms/*","/classSchedules/*"
     };
 
     private final CustomJwtDecoder customJwtDecoder;
@@ -27,30 +33,45 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS)
-                .permitAll()
-                .anyRequest()
-                .authenticated());
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(withDefaults())
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.GET, PUBLIC_ENDPOINTS).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(jwtConfigurer -> jwtConfigurer
+                                .decoder(customJwtDecoder)
+                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                );
 
-        httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer
-                        .decoder(customJwtDecoder)
-                        .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-
-        return httpSecurity.build();
+        return http.build();
     }
 
     @Bean
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
 
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-
-        return jwtAuthenticationConverter;
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
+
+        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
+        jwtConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+
+        return jwtConverter;
+    }
 }

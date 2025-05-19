@@ -5,7 +5,7 @@ spring:
       max-file-size: 2MB
       max-request-size: 2MB
   kafka:
-    bootstrap-servers: localhost:9094
+    bootstrap-servers: localhost:9193
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -56,7 +56,7 @@ springdoc:
   swagger-ui:
     path: "/swagger"
 server:
-  port: 8080
+  port: 8081
   address: 0.0.0.0
   email:
     from: "minhdaimk111@gmail.com"

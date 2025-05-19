@@ -4,6 +4,7 @@ import com.ddd.scheduleservice.Dto.Response.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,9 +39,9 @@ public class GlobalException {
                 .build();
         return ResponseEntity.status(error.getStatus()).body(apiResponse);
     }
-    /*@ExceptionHandler(value= AccessDeniedException.class)
+   @ExceptionHandler(value= AccessDeniedException.class)
     ResponseEntity<ApiResponse> handleAccessDenied(AccessDeniedException e, Throwable t){
-        ErrorCode error=ErrorCode.UNAUTHORIZED;
+        ErrorCode error=ErrorCode.UNAUTHENTICATED;
         return ResponseEntity.status(error.getStatus()).body(
                 ApiResponse.builder()
                         .success(false)
@@ -48,7 +49,7 @@ public class GlobalException {
                         .message(error.getMessage())
                         .build()
         );
-    }*/
+    }
     //này đe bat cac lỗi có trong Entity
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handleValidationExceptions(MethodArgumentNotValidException e){

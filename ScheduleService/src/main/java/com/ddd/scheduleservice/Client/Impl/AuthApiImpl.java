@@ -2,6 +2,7 @@ package com.ddd.scheduleservice.Client.Impl;
 
 import com.ddd.scheduleservice.Client.AuthApi;
 import com.ddd.scheduleservice.Dto.Request.TokenRequest;
+import com.ddd.scheduleservice.Dto.Request.UserRequestAuthenService;
 import com.ddd.scheduleservice.Dto.Response.ApiResponse;
 import com.ddd.scheduleservice.Dto.Response.IntrospectResponse;
 import com.ddd.scheduleservice.Dto.Response.UserAuthResponse;
@@ -29,7 +30,9 @@ public class AuthApiImpl implements AuthApi {
     }
 
     @Override
-    public void createdUser(String token) {
-        throw new AppException(ErrorCode.AUTHEN_SERVICE_NOTWORK);
+    public void createdUser(UserRequestAuthenService user, String token) {
+
     }
+
+
 }

@@ -55,6 +55,10 @@ public class UserService {
         return mapper.toUserResponse(userRepository.findByUserName(userName)
                 .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND)));
     }
+    public UserResponse getmyRoleByUsername(String username) {
+        return mapper.toUserResponse(userRepository.findByUserName(username)
+                .orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND)));
+    }
 
     public UserResponse getbyId(String id) {
         return mapper.toUserResponse(userRepository.findById(id)

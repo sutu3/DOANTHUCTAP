@@ -19,6 +19,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,12 +54,12 @@ public class UserService {
                         new AppException(ErrorCode.GIANGVIEN_NOT_FOUND)));
     }
 
+    @PostAuthorize("returnObject.username==authentication.name")
     public UserResponse getUserByToken(String token) throws AppException{
-        UserAuthResponse userAuthResponse = authenService.GetIdentity(TokenRequest.builder()
-               .token(token)
-               .build());
-        return userMapper.toUserResponse(
-                userRepo.findByEmail(userAuthResponse.getEmail()));
+        var context= SecurityContextHolder.getContext();
+        String userName=context.getAuthentication().getName();
+        return userMapper.toUserResponse(userRepo.findByUsername(userName));
+
     }
     
     public UserResponse getUserByUsername(String username) {
@@ -73,12 +76,13 @@ public class UserService {
         }*/
 
         User user=userRepo.findById(Userid).orElseThrow(()->new AppException(ErrorCode.GIANGVIEN_NOT_FOUND));
-        user.setRole(Role.ADMIN);
+
         return userMapper.toUserResponse(
                 userRepo.save(user));
     }
 
-  
+
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponse createUser(UserRequest request,MultipartFile file,String token) {
 
         if(userRepo.findByEmail(request.getEmail())!=null){
@@ -93,7 +97,6 @@ public class UserService {
 
         ImageResponse image= fileService.uploadFileImage(file);
         User user =userMapper.toUser(request);
-        user.setRole(Role.Teacher);
         user.setImageUrl(image.getUrlImage());
         return userMapper.toUserResponse(
                 userRepo.save(user));

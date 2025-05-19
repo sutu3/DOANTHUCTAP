@@ -13,5 +13,4 @@ public interface FileService {
     @PostMapping(value = "/images/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ImageResponse uploadFileImage(@RequestPart("file") MultipartFile file);
 
-
     }

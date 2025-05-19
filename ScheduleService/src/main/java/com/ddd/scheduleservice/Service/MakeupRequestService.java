@@ -17,6 +17,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -75,6 +76,7 @@ public class MakeupRequestService {
                 makeupRequestRepo.save(makeupRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public MakeupRequestDTOResponse RejectRequest(int id,String token) {
         authenService.authenAdmin(TokenRequest.builder()
                 .token(token)
@@ -95,8 +97,11 @@ public class MakeupRequestService {
                 .build());
         return makeupRequestMapper.toMakeupRequestDTOResponse(makeupRequestUpdate);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     public ClassSchedulesResponse Approve(int id, MakeupRequestUpdate update,String token){
-
+        authenService.authenAdmin(TokenRequest.builder()
+                .token(token)
+                .build());
         MakeupRequest makeupRequest=makeupRequestRepo.findById(id).orElseThrow(()->
                 new AppException(ErrorCode.DANGKYBU_NOT_FOUND));
         makeupRequest.setStatus(RequestStatus.APPROVED);

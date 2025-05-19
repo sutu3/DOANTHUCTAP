@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="efff6be6-b433-4f49-a2c2-220aeba2d7bb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/AuthenService.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GatewayService/src/main/java/com/example/gateservice/configuration/CorsGlobalConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../GatewayService/src/main/java/com/example/gateservice/configuration/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AuthenService/src/main/java/com/ddd/authenservice/Configuration/CrosConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AuthenService/src/main/java/com/ddd/authenservice/Configuration/CrosConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AuthenService/src/main/java/com/ddd/authenservice/Repo/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AuthenService/src/main/java/com/ddd/authenservice/Repo/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AuthenService/src/main/java/com/ddd/authenservice/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AuthenService/src/main/java/com/ddd/authenservice/Service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/GateService.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/GateService.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/NotificationService.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/NotificationService.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/ScheduleService.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../ConfigService/src/main/resources/shared/ScheduleService.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GatewayService/src/main/java/com/example/gateservice/configuration/WebConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GatewayService/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../GatewayService/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NotificationService/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NotificationService/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Client/FileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Client/FileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Client/Impl/AuthApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Client/Impl/AuthApiImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Enum/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Enum/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Exception/GlobalException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Exception/GlobalException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/AuthenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/AuthenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/MakeupRequestService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/MakeupRequestService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/RoomService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/ShiftService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/ShiftService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/SubjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/SubjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/java/com/ddd/scheduleservice/Service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ScheduleService/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../ScheduleService/src/main/resources/application.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "sutu3"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/sutu3/DOANTHUCTAP.git",
+    "accountId": "306765e3-f143-4201-993c-b7f3a32bf8b7"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2wZFvZb2iTs58nOeqbGU3qusmls" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Download/CODE",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.rainbow.brackets.color",
+    "settings.editor.splitter.proportion": "0.3125",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+      <setting name="path" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workDir" value="file://$PROJECT_DIR$" />
+      <setting name="debug" value="false" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.19072.14" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.19072.14" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="efff6be6-b433-4f49-a2c2-220aeba2d7bb" name="Changes" comment="" />
+      <created>1746241432137</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1746241432137</updated>
+      <workItem from="1746241433454" duration="39000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
